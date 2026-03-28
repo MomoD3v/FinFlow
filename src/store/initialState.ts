@@ -1,5 +1,26 @@
 import type { AppState } from '../models';
 
+export const emptyState: AppState = {
+  settings: {
+    currency: 'EUR',
+    locale: 'en',
+    theme: 'dark',
+    savingsRateTarget: 25,
+    expectedMonthlyNet: 0,
+  },
+  incomeSources: [],
+  transactions: [],
+  budgetTargets: [],
+  investmentAccounts: [],
+  savingsGoals: [],
+  zakatAssets: [],
+  shariahSettings: {
+    enabled: false,
+    nisabValue: 5100,
+    lastZakatDate: null,
+  },
+};
+
 // Helper to build ISO date strings relative to today
 function daysAgo(n: number): string {
   const d = new Date();

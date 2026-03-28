@@ -6,7 +6,7 @@ import { SectionHeader } from '../common/SectionHeader';
 import { SelectField, InputField } from '../common/FormField';
 import { Button } from '../common/Button';
 import { exportJSON, importJSON } from '../../utils/importExport';
-import { initialState } from '../../store/initialState';
+import { initialState, emptyState } from '../../store/initialState';
 import type { Currency, Locale, Theme } from '../../models';
 
 const CURRENCIES: Currency[] = ['EUR', 'USD', 'GBP', 'MAD', 'SAR', 'AED'];
@@ -43,6 +43,12 @@ export function SettingsView() {
   const handleReset = () => {
     if (confirm(t('settings.resetConfirm'))) {
       dispatch({ type: 'STATE_IMPORT', payload: initialState });
+    }
+  };
+
+  const handleClearAll = () => {
+    if (confirm('This will permanently delete ALL your data (income, expenses, investments, goals). Start completely fresh?')) {
+      dispatch({ type: 'STATE_IMPORT', payload: { ...emptyState, settings: state.settings } });
     }
   };
 
@@ -140,9 +146,14 @@ export function SettingsView() {
         <div className="bg-red-500/5 border border-red-500/20 rounded-2xl p-5">
           <h3 className="text-sm font-semibold text-red-400 mb-1">{t('settings.dangerZone')}</h3>
           <p className="text-xs text-gray-500 mb-4">This will erase all your data and reload the demo data.</p>
-          <Button variant="danger" icon={<Trash2 size={15} />} onClick={handleReset}>
-            {t('settings.resetData')}
-          </Button>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="danger" icon={<Trash2 size={15} />} onClick={handleClearAll}>
+              Clear all data
+            </Button>
+            <Button variant="ghost" icon={<Trash2 size={15} />} onClick={handleReset}>
+              {t('settings.resetData')} (reload demo)
+            </Button>
+          </div>
         </div>
       </div>
     </div>
