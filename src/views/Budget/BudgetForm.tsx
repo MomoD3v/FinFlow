@@ -41,8 +41,8 @@ export function BudgetForm({ initial, onSave, onCancel }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="col-span-full">
           <SelectField label={t('budget.category')} value={form.category}
             onChange={(e) => set('category', e.target.value as ExpenseCategory)}>
             {CATEGORIES.map((c) => (

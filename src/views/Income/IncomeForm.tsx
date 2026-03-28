@@ -44,8 +44,8 @@ export function IncomeForm({ initial, onSave, onCancel }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="col-span-full">
           <InputField
             label={t('income.name')}
             value={form.name}
@@ -94,7 +94,7 @@ export function IncomeForm({ initial, onSave, onCancel }: Props) {
             onChange={(v) => set('isActive', v)}
           />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-full">
           <InputField
             label={t('income.notes')}
             value={form.notes}

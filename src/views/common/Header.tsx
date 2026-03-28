@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sun, Moon, Globe } from 'lucide-react';
+import { Sun, Moon, Globe, Menu } from 'lucide-react';
 import { useAppStore } from '../../store/AppContext';
 import { useTranslation } from '../../hooks/useTranslation';
 import type { Locale, Theme } from '../../models';
@@ -11,7 +11,11 @@ const LOCALES: { value: Locale; label: string }[] = [
   { value: 'es', label: 'ES' },
 ];
 
-export function Header() {
+interface Props {
+  onMenuClick: () => void;
+}
+
+export function Header({ onMenuClick }: Props) {
   const { state, dispatch } = useAppStore();
   const { t } = useTranslation();
   const { theme, locale } = state.settings;
@@ -26,12 +30,24 @@ export function Header() {
   };
 
   return (
-    <header className="h-14 flex items-center justify-between px-6 bg-gray-900 border-b border-gray-800 flex-shrink-0">
-      <div />
-      <div className="flex items-center gap-3">
+    <header className="h-14 flex items-center justify-between px-4 bg-gray-900 border-b border-gray-800 flex-shrink-0 gap-3">
+      {/* Hamburger — mobile only */}
+      <button
+        onClick={onMenuClick}
+        className="lg:hidden p-2 rounded-xl bg-gray-800 text-gray-400 hover:text-white transition-colors flex-shrink-0"
+        aria-label="Open menu"
+      >
+        <Menu size={18} />
+      </button>
+
+      {/* Logo text — mobile only (desktop has sidebar logo) */}
+      <span className="lg:hidden font-bold text-white text-base flex-1">FinFlow</span>
+
+      {/* Right controls */}
+      <div className="flex items-center gap-2 flex-shrink-0">
         {/* Locale switcher */}
-        <div className="flex items-center gap-1 bg-gray-800 rounded-xl p-1">
-          <Globe size={14} className="text-gray-500 ml-1" />
+        <div className="flex items-center gap-0.5 bg-gray-800 rounded-xl p-1">
+          <Globe size={13} className="text-gray-500 ml-1 hidden sm:block" />
           {LOCALES.map(({ value, label }) => (
             <button
               key={value}

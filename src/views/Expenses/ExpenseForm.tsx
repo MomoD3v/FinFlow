@@ -46,8 +46,8 @@ export function ExpenseForm({ initial, onSave, onCancel }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="col-span-full">
           <InputField
             label={t('expenses.description')}
             value={form.description}
@@ -88,14 +88,14 @@ export function ExpenseForm({ initial, onSave, onCancel }: Props) {
         >
           {CURRENCIES.map((c) => <option key={c} value={c}>{c}</option>)}
         </SelectField>
-        <div className="col-span-2 flex items-center">
+        <div className="col-span-full flex items-center">
           <CheckboxField
             label={t('expenses.recurring')}
             checked={form.isRecurring}
             onChange={(v) => set('isRecurring', v)}
           />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-full">
           <InputField
             label={`${t('expenses.tags')} (semicolon-separated)`}
             value={form.tags.join(';')}

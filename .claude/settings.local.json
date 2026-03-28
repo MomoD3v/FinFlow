@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pkill -f \"vite\")",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(sed -i 's/col-span-2/col-span-full/g' \"$f\")",
+      "Bash(echo \"fixed col-span: $f\")",
+      "Bash(done)",
+      "Bash(export PATH=\"$PATH:/c/Program Files/nodejs\")",
+      "Bash(npm run:*)"
+    ]
+  }
+}

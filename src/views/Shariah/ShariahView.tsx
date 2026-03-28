@@ -115,7 +115,7 @@ export function ShariahView() {
           </div>
 
           {/* Zakat summary */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-gray-800/50 border border-gray-700 rounded-2xl p-4 text-center">
               <p className="text-xs text-gray-500 mb-1">{t('shariah.totalZakatable')}</p>
               <p className="text-xl font-bold text-white">{fmt(zakatResult.totalZakatable)}</p>

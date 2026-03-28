@@ -43,8 +43,8 @@ export function GoalForm({ initial, onSave, onCancel }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="col-span-full">
           <InputField label={t('savings.name')} value={form.name}
             onChange={(e) => set('name', e.target.value)} placeholder="e.g. Emergency Fund" required />
         </div>
@@ -59,7 +59,7 @@ export function GoalForm({ initial, onSave, onCancel }: Props) {
         <InputField label={t('savings.targetDate')} type="date"
           value={form.targetDate ?? ''}
           onChange={(e) => set('targetDate', e.target.value || null)} />
-        <div className="col-span-2">
+        <div className="col-span-full">
           <label className="text-xs font-medium text-gray-400 block mb-1">{t('savings.icon')}</label>
           <div className="flex flex-wrap gap-2">
             {ICONS.map((emoji) => (
@@ -78,7 +78,7 @@ export function GoalForm({ initial, onSave, onCancel }: Props) {
             ))}
           </div>
         </div>
-        <div className="col-span-2">
+        <div className="col-span-full">
           <InputField label={t('savings.notes')} value={form.notes}
             onChange={(e) => set('notes', e.target.value)} placeholder="Optional notes…" />
         </div>

@@ -46,14 +46,14 @@ export function HoldingForm({ initial, onSave, onCancel }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <InputField label={t('investments.ticker')} value={form.ticker}
           onChange={(e) => set('ticker', e.target.value.toUpperCase())} placeholder="e.g. IWDA" required />
         <SelectField label={t('common.currency')} value={form.currency}
           onChange={(e) => set('currency', e.target.value as ETFHolding['currency'])}>
           {CURRENCIES.map((c) => <option key={c} value={c}>{c}</option>)}
         </SelectField>
-        <div className="col-span-2">
+        <div className="col-span-full">
           <InputField label={t('investments.holdingName')} value={form.name}
             onChange={(e) => set('name', e.target.value)} placeholder="e.g. iShares MSCI World" />
         </div>
@@ -71,7 +71,7 @@ export function HoldingForm({ initial, onSave, onCancel }: Props) {
           onChange={(e) => set('halalStatus', e.target.value as ETFHolding['halalStatus'])}>
           {HALAL_STATUSES.map((s) => <option key={s} value={s}>{t(`investments.${s === 'non_halal' ? 'nonHalal' : s}`)}</option>)}
         </SelectField>
-        <div className="col-span-2">
+        <div className="col-span-full">
           <InputField label="Non-halal revenue % (for purification)" type="number" min={0} max={100} step={0.1}
             value={form.nonHalalRevenuePct}
             onChange={(e) => set('nonHalalRevenuePct', parseFloat(e.target.value) || 0)}

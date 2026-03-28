@@ -41,8 +41,8 @@ export function AccountForm({ initial, onSave, onCancel }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="col-span-full">
           <InputField label={t('investments.accountName')} value={form.name}
             onChange={(e) => set('name', e.target.value)} placeholder="e.g. CTO Boursorama" required />
         </div>
@@ -54,11 +54,11 @@ export function AccountForm({ initial, onSave, onCancel }: Props) {
           onChange={(e) => set('currency', e.target.value as InvestmentAccount['currency'])}>
           {CURRENCIES.map((c) => <option key={c} value={c}>{c}</option>)}
         </SelectField>
-        <div className="col-span-2">
+        <div className="col-span-full">
           <InputField label={t('investments.cash')} type="number" min={0} step={0.01}
             value={form.cashBalance} onChange={(e) => set('cashBalance', parseFloat(e.target.value) || 0)} />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-full">
           <InputField label="Notes" value={form.notes}
             onChange={(e) => set('notes', e.target.value)} placeholder="Optional…" />
         </div>
