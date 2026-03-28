@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4b5563;
+  }
+
+  /* Light mode overrides */
+  html:not(.dark) {
+    background-color: #f9fafb;
+    color: #111827;
+  }
+  html:not(.dark) .bg-gray-950 { background-color: #f3f4f6; }
+  html:not(.dark) .bg-gray-900 { background-color: #ffffff; }
+  html:not(.dark) .bg-gray-800\/50 { background-color: rgba(249,250,251,0.8); }
+  html:not(.dark) .border-gray-800 { border-color: #e5e7eb; }
+  html:not(.dark) .border-gray-700 { border-color: #d1d5db; }
+  html:not(.dark) .text-white  { color: #111827; }
+  html:not(.dark) .text-gray-400 { color: #4b5563; }
+  html:not(.dark) .text-gray-500 { color: #6b7280; }
+  html:not(.dark) .text-gray-600 { color: #9ca3af; }
+  html:not(.dark) .bg-gray-700 { background-color: #e5e7eb; }
+  html:not(.dark) .bg-gray-800 { background-color: #f3f4f6; }
+  html:not(.dark) .bg-gray-900\/50 { background-color: rgba(243,244,246,0.5); }
+}
+
+@layer utilities {
+  .text-start { text-align: start; }
+}
