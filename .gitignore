@@ -8,3 +8,13 @@ dist/
 Thumbs.db
 .vscode/
 .idea/
+
+# Private financial sources and generated imports must never be published
+private/
+upload/
+*.pdf
+*.ods
+finflow-backup-*.json
+FinFlow_import_*.json
+playwright-report/
+test-results/

@@ -5,11 +5,11 @@ import React, {
   useEffect,
   useCallback,
   type ReactNode,
-} from 'react';
-import type { AppState } from '../models';
-import type { Intent } from '../intents/types';
-import { reducer } from '../intents/reducer';
-import { initialState } from './initialState';
+} from "react";
+import type { AppState } from "../models";
+import type { Intent } from "../intents/types";
+import { reducer } from "../intents/reducer";
+import { initialState } from "./initialState";
 
 // ─── Context shape ────────────────────────────────────────────────────────────
 
@@ -22,7 +22,7 @@ const AppContext = createContext<AppContextValue | null>(null);
 
 // ─── Persistence helpers ──────────────────────────────────────────────────────
 
-const STORAGE_KEY = 'finflow_state_v1';
+const STORAGE_KEY = "finflow_state_v1";
 
 function loadPersistedState(): AppState | null {
   try {
@@ -44,38 +44,49 @@ function persistState(state: AppState): void {
 
 // ─── Provider ────────────────────────────────────────────────────────────────
 
-export function AppProvider({ children }: { children: ReactNode }) {
+export function AppProvider({
+  children,
+  external,
+}: {
+  children: ReactNode;
+  external?: AppContextValue;
+}) {
   const [state, dispatch] = useReducer(
     reducer,
     undefined,
-    () => loadPersistedState() ?? initialState
+    () => external?.state ?? loadPersistedState() ?? initialState,
   );
 
   // Sync to localStorage on every state change
   useEffect(() => {
-    persistState(state);
-  }, [state]);
+    if (!external) persistState(state);
+  }, [state, external]);
 
   // Apply theme class on <html>
   useEffect(() => {
+    if (external) return;
     const root = document.documentElement;
-    if (state.settings.theme === 'dark') {
-      root.classList.add('dark');
+    if (state.settings.theme === "dark") {
+      root.classList.add("dark");
     } else {
-      root.classList.remove('dark');
+      root.classList.remove("dark");
     }
   }, [state.settings.theme]);
 
   // Apply dir for RTL (Arabic)
   useEffect(() => {
-    document.documentElement.dir = state.settings.locale === 'ar' ? 'rtl' : 'ltr';
+    if (external) return;
+    document.documentElement.dir =
+      state.settings.locale === "ar" ? "rtl" : "ltr";
     document.documentElement.lang = state.settings.locale;
   }, [state.settings.locale]);
 
   const stableDispatch = useCallback(dispatch, []);
 
   return (
-    <AppContext.Provider value={{ state, dispatch: stableDispatch }}>
+    <AppContext.Provider
+      value={external ?? { state, dispatch: stableDispatch }}
+    >
       {children}
     </AppContext.Provider>
   );
@@ -85,6 +96,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
 export function useAppStore(): AppContextValue {
   const ctx = useContext(AppContext);
-  if (!ctx) throw new Error('useAppStore must be used inside <AppProvider>');
+  if (!ctx) throw new Error("useAppStore must be used inside <AppProvider>");
   return ctx;
 }
