@@ -27,17 +27,25 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
+import { Dashboard } from "./Dashboard";
 import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-  LineChart,
-  Line,
-} from "recharts";
+  ChevronLeft,
+  ChevronRight,
+  LayoutDashboard,
+  CalendarDays,
+  ArrowLeftRight,
+  FileUp,
+  Wallet,
+  Receipt,
+  Landmark,
+  Target,
+  History as HistoryIcon,
+  Download,
+  ChartNoAxesCombined,
+  Moon,
+  Sun,
+} from "lucide-react";
+
 import { useFinance, FinanceProvider } from "./context";
 import {
   categories,
@@ -143,156 +151,6 @@ function SimpleTable({
         </TableBody>
       </Table>
     </TableContainer>
-  );
-}
-function Dashboard() {
-  const { state: s } = useFinance(),
-    m = monthly(s, s.settings.month),
-    nw = netWorth(s);
-  const history = [...s.snapshots]
-    .sort((a, b) => a.date.localeCompare(b.date))
-    .map((x) => ({
-      date: x.date,
-      net: (x.assets - x.otherDebts - x.creditDebt) / 100,
-    }));
-  return (
-    <Stack spacing={3}>
-      <Typography variant="h4">Votre budget, en un regard</Typography>
-      {m.reference == null && (
-        <Alert severity="info">
-          Le revenu prévu de ce mois n’est pas renseigné. Les indicateurs
-          prévisionnels sont incomplets.
-        </Alert>
-      )}
-      <Box sx={cards}>
-        <Metric
-          label="Revenu prévu"
-          value={m.reference == null ? "À renseigner" : euros(m.plannedIn)}
-        />
-        <Metric
-          label="Solde budgétaire prévu"
-          value={m.reference == null ? "Incomplet" : euros(m.plannedBalance)}
-          detail="Après toutes les enveloppes, épargne comprise"
-        />
-        <Metric
-          label="Épargne + investissements prévus"
-          value={euros(m.savings)}
-          detail={
-            m.savingsRate === null
-              ? "Revenu requis"
-              : `${m.savingsRate.toFixed(1)} % du revenu de référence`
-          }
-        />
-        <Metric
-          label="Patrimoine net"
-          value={euros(nw.net)}
-          detail="Dernières valeurs saisies, indépendantes du mois choisi"
-        />
-      </Box>
-      <Box sx={cards}>
-        <Metric
-          label="Après charges, crédits et impôts"
-          value={
-            m.remainingAfterMandatory === null
-              ? "À renseigner"
-              : euros(m.remainingAfterMandatory)
-          }
-          detail="Avant vie courante, loisirs, projets et épargne"
-        />
-        <Metric
-          label="Solde des flux enregistrés"
-          value={euros(m.actualBalance)}
-          detail="Ne représente pas le solde bancaire disponible"
-        />
-        <Metric
-          label="Buffer protégé"
-          value={
-            s.settings.buffer === null
-              ? "À renseigner"
-              : euros(s.settings.buffer)
-          }
-          detail={`Utilisation prévue : ${m.reference == null ? "inconnue" : euros(m.bufferUsed)}`}
-        />
-        <Metric
-          label="Épargne + investissements réalisés"
-          value={euros(m.savingsActual)}
-        />
-      </Box>
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h6">Répartition du budget</Typography>
-        <Box sx={{ height: 430 }}>
-          <ResponsiveContainer>
-            <BarChart
-              data={m.rows.map((r) => ({
-                ...r,
-                planned: r.planned / 100,
-                actual: r.actual / 100,
-              }))}
-              layout="vertical"
-              margin={{ bottom: 0, left: 0, right: 10 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" tick={{ fontSize: 11 }} />
-              <YAxis
-                type="category"
-                dataKey="category"
-                width={125}
-                interval={0}
-                tick={{ fontSize: 11 }}
-                tickFormatter={(v: string) =>
-                  ({
-                    "Crédits & paiements fractionnés": "Crédits",
-                    "Fiscalité & régularisations": "Impôts",
-                    "Projets & cagnottes": "Projets",
-                    "Épargne de sécurité": "Épargne",
-                    "Fun & lifestyle": "Loisirs",
-                  })[v] || v
-                }
-              />
-              <Tooltip formatter={(v: number) => `${v.toFixed(2)} €`} />
-              <Bar
-                name="Prévu"
-                dataKey="planned"
-                fill="#6474df"
-                radius={[0, 5, 5, 0]}
-                isAnimationActive={false}
-              />
-              <Bar
-                name="Réel net"
-                dataKey="actual"
-                fill="#18a68d"
-                radius={[0, 5, 5, 0]}
-                isAnimationActive={false}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </Box>
-      </Paper>
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h6">Évolution réelle du patrimoine</Typography>
-        {history.length < 2 ? (
-          <Typography sx={{ py: 4 }} color="text.secondary">
-            Ajoutez au moins deux photos datées pour afficher l’évolution.
-          </Typography>
-        ) : (
-          <Box sx={{ height: 260 }}>
-            <ResponsiveContainer>
-              <LineChart data={history}>
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip formatter={(v: number) => `${v.toFixed(2)} €`} />
-                <Line
-                  dataKey="net"
-                  name="Patrimoine net"
-                  stroke="#18a68d"
-                  strokeWidth={3}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </Box>
-        )}
-      </Paper>
-    </Stack>
   );
 }
 function Budget() {
@@ -1272,6 +1130,19 @@ function Backups() {
     </Stack>
   );
 }
+const pageIcons = [
+  LayoutDashboard,
+  CalendarDays,
+  ArrowLeftRight,
+  FileUp,
+  Wallet,
+  Receipt,
+  Landmark,
+  Target,
+  HistoryIcon,
+  Download,
+  ChartNoAxesCombined,
+];
 function Shell() {
   const { state: s, change, error, busy } = useFinance();
   const [page, setPage] = useState(0),
@@ -1284,14 +1155,32 @@ function Shell() {
     document.documentElement.lang = "fr";
     document.documentElement.dir = "ltr";
   }, [s.settings.theme]);
+  const selectedYear = Number(s.settings.month.slice(0, 4));
+  const years = [
+    ...new Set([
+      ...Array.from({ length: 11 }, (_, i) => selectedYear - 5 + i),
+      ...s.plans.map((p) => Number(p.month.slice(0, 4))),
+      ...s.transactions.map((t) => Number(t.budgetMonth.slice(0, 4))),
+    ]),
+  ].sort((a, b) => a - b);
+  const setMonth = (month: string) => {
+    void change((st) => ({ ...st, settings: { ...st.settings, month } })).catch(
+      () => {},
+    );
+  };
   const theme = createTheme({
     palette: {
       mode: s.settings.theme,
-      primary: { main: s.settings.theme === "light" ? "#4657bd" : "#a9b5ff" },
-      secondary: { main: "#168a77" },
+      primary: { main: s.settings.theme === "light" ? "#047857" : "#34d399" },
+      secondary: { main: "#3b82f6" },
+      divider: s.settings.theme === "light" ? "#e2e8f0" : "#293548",
+      text: {
+        primary: s.settings.theme === "light" ? "#0f172a" : "#f1f5f9",
+        secondary: s.settings.theme === "light" ? "#475569" : "#94a3b8",
+      },
       background: {
-        default: s.settings.theme === "light" ? "#f4f6fb" : "#111522",
-        paper: s.settings.theme === "light" ? "#ffffff" : "#1d2435",
+        default: s.settings.theme === "light" ? "#f8fafc" : "#030712",
+        paper: s.settings.theme === "light" ? "#ffffff" : "#111827",
       },
     },
     typography: {
@@ -1306,7 +1195,7 @@ function Shell() {
         styleOverrides: {
           root: {
             border: "1px solid",
-            borderColor: s.settings.theme === "light" ? "#e3e7f0" : "#344059",
+            borderColor: s.settings.theme === "light" ? "#e2e8f0" : "#293548",
           },
         },
       },
@@ -1317,11 +1206,21 @@ function Shell() {
     },
   });
   const nav = (
-    <Box sx={{ p: 2, width: 248 }}>
+    <Box
+      sx={{ p: 2, width: 248, minHeight: "100%", bgcolor: "background.paper" }}
+    >
       <Typography
         variant="h5"
         sx={{ fontWeight: 800, p: 2, color: "primary.main" }}
       >
+        <Wallet
+          size={26}
+          style={{
+            display: "inline",
+            verticalAlign: "middle",
+            marginRight: 10,
+          }}
+        />
         FinFlow
       </Typography>
       <Typography variant="caption" color="text.secondary" sx={{ px: 2 }}>
@@ -1331,8 +1230,22 @@ function Shell() {
         {pages.map((p, i) => (
           <Button
             key={p}
-            sx={{ justifyContent: "flex-start", px: 2, py: 1.2 }}
-            variant={page === i ? "contained" : "text"}
+            startIcon={(() => {
+              const Icon = pageIcons[i];
+              return <Icon size={18} />;
+            })()}
+            aria-current={page === i ? "page" : undefined}
+            sx={{
+              justifyContent: "flex-start",
+              px: 2,
+              py: 1.2,
+              fontSize: 13,
+              color: page === i ? "primary.main" : "text.secondary",
+              bgcolor: page === i ? "action.selected" : "transparent",
+              borderLeft: "3px solid",
+              borderColor: page === i ? "primary.main" : "transparent",
+              borderRadius: 2,
+            }}
             onClick={() => {
               setPage(i);
               setDrawer(false);
@@ -1385,20 +1298,57 @@ function Shell() {
             >
               <MenuIcon />
             </IconButton>
-            <TextField
-              type="month"
-              size="small"
-              label="Mois budgétaire"
-              slotProps={{ inputLabel: { shrink: true } }}
-              value={s.settings.month}
-              onChange={(e) => {
-                if (e.target.value)
-                  void change((st) => ({
-                    ...st,
-                    settings: { ...st.settings, month: e.target.value },
-                  })).catch(() => {});
-              }}
-            />
+            <Stack
+              direction="row"
+              sx={{ alignItems: "center", gap: 0.5, maxWidth: "100%" }}
+            >
+              <IconButton
+                aria-label="Mois précédent"
+                sx={{ p: 0.5 }}
+                onClick={() => setMonth(addMonths(s.settings.month, -1))}
+              >
+                <ChevronLeft size={20} />
+              </IconButton>
+              <TextField
+                select
+                size="small"
+                label="Mois budgétaire"
+                value={s.settings.month.slice(5, 7)}
+                sx={{ width: { xs: 120, sm: 140 }, minWidth: 0 }}
+                onChange={(e) => setMonth(`${selectedYear}-${e.target.value}`)}
+              >
+                {Array.from({ length: 12 }, (_, i) => (
+                  <MenuItem key={i} value={String(i + 1).padStart(2, "0")}>
+                    {new Intl.DateTimeFormat("fr-FR", { month: "long" }).format(
+                      new Date(2026, i, 1),
+                    )}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                select
+                size="small"
+                label="Année"
+                value={selectedYear}
+                sx={{ width: 85, minWidth: 0 }}
+                onChange={(e) =>
+                  setMonth(`${e.target.value}-${s.settings.month.slice(5, 7)}`)
+                }
+              >
+                {years.map((y) => (
+                  <MenuItem key={y} value={y}>
+                    {y}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <IconButton
+                aria-label="Mois suivant"
+                sx={{ p: 0.5 }}
+                onClick={() => setMonth(addMonths(s.settings.month, 1))}
+              >
+                <ChevronRight size={20} />
+              </IconButton>
+            </Stack>
             <Box sx={{ flex: 1 }} />
             <Chip
               sx={{ display: { xs: "none", sm: "inline-flex" } }}
@@ -1413,6 +1363,18 @@ function Shell() {
               color={error ? "error" : busy ? "default" : "success"}
             />
             <Button
+              startIcon={
+                s.settings.theme === "light" ? (
+                  <Moon size={18} />
+                ) : (
+                  <Sun size={18} />
+                )
+              }
+              aria-label={
+                s.settings.theme === "light"
+                  ? "Activer le thème sombre"
+                  : "Activer le thème clair"
+              }
               onClick={() =>
                 void change((st) => ({
                   ...st,
@@ -1442,7 +1404,7 @@ function Shell() {
             </Alert>
           )}
           {page === 0 ? (
-            <Dashboard />
+            <Dashboard navigate={setPage} />
           ) : page === 1 ? (
             <Budget />
           ) : page === 2 ? (

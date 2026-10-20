@@ -10,6 +10,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "test": "vitest run tests",
+    "test:dashboard": "node scripts/verify-dashboard.mjs",
     "test:private": "vitest run scripts/check-private-inputs.test.ts"
   },
   "dependencies": {

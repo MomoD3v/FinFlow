@@ -27,6 +27,10 @@ L'ancien état `finflow_state_v1` est migré à la première ouverture et conser
 
 ## Budget et patrimoine
 
+Le tableau de bord reprend les cartes colorées, les icônes et le thème émeraude de l’interface d’origine, avec douze indicateurs, les flux par enveloppe, le budget prévu/réalisé, les projets et les dernières opérations. Les courbes de patrimoine utilisent uniquement les photos datées enregistrées. Les dépenses nettes excluent l’épargne et les investissements ; leur taux réalisé utilise les revenus enregistrés. Les données manquantes restent signalées et aucun historique n’est inventé.
+
+Le mois budgétaire se choisit avec les listes du mois et de l’année, ou avec les flèches précédent/suivant. La sélection et le thème clair/sombre sont conservés sur cet appareil. Les prévisions et les opérations d’un mois ne sont pas déplacées lorsqu’on consulte un autre mois.
+
 - Montants stockés en centimes entiers. Prévisions séparées des opérations réelles et opérations en attente.
 - Mois bancaire distinct du mois budgétaire ; salaire affecté au mois suivant par défaut lors de l'import.
 - Remboursements d'achats déduits de leur catégorie. Transferts entre comptes exclus des revenus et dépenses. Épargne et investissements identifiés comme affectations budgétaires.
@@ -74,3 +78,5 @@ FINFLOW_PRIVATE_BACKUP=/chemin/import.json FINFLOW_PRIVATE_PDFS=/chemin/prive no
 ```
 
 Le test navigateur démarre son propre serveur local et vérifie restauration, rechargement, navigation, aperçu PDF, import/annulation et largeur mobile. Il accepte `FINFLOW_BROWSER_PATH` si Chromium est déjà installé. Ses captures restent dans le dossier temporaire local, sans données ajoutées à Git.
+
+Pour le contrôle ciblé du tableau de bord, démarrer `npm run dev -- --host 127.0.0.1 --port 5183` dans un terminal, puis `npm run test:dashboard` dans un autre. Ce contrôle utilise un navigateur isolé et des données fictives : remboursements, épargne, exclusion des opérations en attente et transferts, historique réel, projets, choix du mois, changement d’année, persistance du mois et du thème, menu mobile et absence de débordement à 320/390 px. `FINFLOW_URL` permet de choisir un autre serveur et `FINFLOW_SCREENSHOTS` un dossier local pour les captures facultatives. Aucune donnée personnelle n’est nécessaire.
