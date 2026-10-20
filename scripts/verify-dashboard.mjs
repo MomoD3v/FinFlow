@@ -156,10 +156,26 @@ try {
       {
         month: "2026-10",
         income: 300000,
-        exceptional: 0,
+        exceptional: 50000,
         refundTax: null,
         fixedAdjustment: 0,
         categories: { "Vie courante": 30000, "Épargne de sécurité": 20000 },
+      },
+      {
+        month: "2026-11",
+        income: 150000,
+        exceptional: 0,
+        refundTax: null,
+        fixedAdjustment: 0,
+        categories: { "Vie courante": 30000 },
+      },
+      {
+        month: "2027-01",
+        income: 0,
+        exceptional: 0,
+        refundTax: null,
+        fixedAdjustment: 0,
+        categories: { "Vie courante": 30000 },
       },
     ],
     batches: [],
@@ -173,13 +189,11 @@ try {
     },
   };
   await page.getByRole("button", { name: "Sauvegardes", exact: true }).click();
-  await page
-    .locator("input[type=file]")
-    .setInputFiles({
-      name: "fictional-budget.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(fixture)),
-    });
+  await page.locator("input[type=file]").setInputFiles({
+    name: "fictional-budget.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(fixture)),
+  });
   await page.getByRole("button", { name: "Confirmer la restauration" }).click();
   await page
     .getByRole("button", { name: "Vue d’ensemble", exact: true })
@@ -192,6 +206,12 @@ try {
     "200,00",
   );
   await expect(page.getByText("25 %", { exact: true })).toBeVisible();
+  const split = page.getByRole("table", {
+    name: "Découpage du salaire du mois",
+  });
+  const living = split.getByRole("row").filter({ hasText: "Vie courante" });
+  await expect(living).toContainText("10,0 %");
+  await expect(living).toContainText("3,3 %");
   await expect(
     page.getByText(
       "Ajoutez au moins deux photos datées pour afficher l’évolution.",
@@ -203,6 +223,8 @@ try {
     page.getByRole("combobox", { name: "Mois budgétaire", exact: true }),
   ).toHaveText("novembre");
   await expect(metric("Revenus enregistrés")).toContainText("0,00");
+  await expect(living).toContainText("20,0 %");
+  await expect(living).toContainText("0,0 %");
   await page.reload();
   await expect(
     page.getByRole("combobox", { name: "Mois budgétaire", exact: true }),
@@ -215,6 +237,9 @@ try {
     .getByRole("combobox", { name: "Mois budgétaire", exact: true })
     .click();
   await page.getByRole("option", { name: "décembre", exact: true }).click();
+  await expect(
+    living.getByRole("cell", { name: "À renseigner", exact: true }),
+  ).toHaveCount(2);
   await page.getByRole("button", { name: "Mois suivant", exact: true }).click();
   await expect(
     page.getByRole("combobox", { name: "Mois budgétaire", exact: true }),
@@ -222,6 +247,9 @@ try {
   await expect(
     page.getByRole("combobox", { name: "Année", exact: true }),
   ).toHaveText("2027");
+  await expect(
+    living.getByRole("cell", { name: "À renseigner", exact: true }),
+  ).toHaveCount(2);
   await page.getByRole("combobox", { name: "Année", exact: true }).click();
   await page.getByRole("option", { name: "2026", exact: true }).click();
   await page

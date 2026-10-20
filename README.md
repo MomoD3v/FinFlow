@@ -31,6 +31,8 @@ Le tableau de bord reprend les cartes colorées, les icônes et le thème émera
 
 Le mois budgétaire se choisit avec les listes du mois et de l’année, ou avec les flèches précédent/suivant. La sélection et le thème clair/sombre sont conservés sur cet appareil. Les prévisions et les opérations d’un mois ne sont pas déplacées lorsqu’on consulte un autre mois.
 
+Le tableau « Découpage du salaire » présente chaque enveloppe du mois budgétaire sélectionné : prévu, réalisé net et leurs pourcentages du salaire de référence de ce même mois. La base est le revenu régulier prévu dans « Budget mensuel → Modifier le mois » : renseigner le salaire net qui finance ce mois. Les entrées exceptionnelles, le solde bancaire et les revenus des autres mois ne sont pas utilisés. Une base absente ou nulle laisse les pourcentages à renseigner ; le total des affectations peut dépasser 100 %. Les réalisés dépendent des transactions comptabilisées affectées au mois, même si le salaire a été reçu le mois bancaire précédent.
+
 - Montants stockés en centimes entiers. Prévisions séparées des opérations réelles et opérations en attente.
 - Mois bancaire distinct du mois budgétaire ; salaire affecté au mois suivant par défaut lors de l'import.
 - Remboursements d'achats déduits de leur catégorie. Transferts entre comptes exclus des revenus et dépenses. Épargne et investissements identifiés comme affectations budgétaires.

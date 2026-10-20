@@ -36,6 +36,7 @@ import {
 import { useFinance } from "./context";
 import { euros } from "./model";
 import { monthly, netWorth } from "./calculations";
+import { SalaryBreakdown } from "./SalaryBreakdown";
 
 const colors = [
   "#10b981",
@@ -289,6 +290,7 @@ export function Dashboard({ navigate }: { navigate: (page: number) => void }) {
           </Paper>
         ))}
       </Box>
+      <SalaryBreakdown editBudget={() => navigate(1)} />
       <Box
         sx={{
           display: "grid",
